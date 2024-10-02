@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('create_post_tag_tables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user-id')->constrained();
-            $table->foreignId('catagory_id')->constrained();
-            $table->string('title');
-            $table->longText('description')->nullable();
-            $table->boolean('status')->default();
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('create_post_tag_tables');
     }
 };

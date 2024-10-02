@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comment_replies', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('comment_id');
-            $table->foreignId('user_id');
-            $table->string('comment');
-            $table->timestamps();
+        Schema::create('tags', function (Blueprint $table) {
+          $table->foreignId('tag_id')->constrained();
+          $table->foreignId('post_id')->constrained();
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comment_replies');
+        Schema::dropIfExists('tags');
     }
 };
