@@ -54,7 +54,7 @@
 
         {{-- @include('layouts.partials.content'); --}}
 
-        @include('layouts.partials.content');
+        @include('layouts.partials.dashboard');
 
         {{-- @include('layouts.partials.footer'); --}}
 
