@@ -36,6 +36,14 @@ class PostController extends Controller
             'category' => 'required',
         ]);
 
+        if ($file = $request->file('file')) {
+            $fileName = $file->getClientOriginalName();
+
+            dd($fileName);
+        }
+
+        dd('dont have');
+
         $post = Post::create([
             'user_id' => 1,
             'title' => $request->title,
@@ -71,15 +79,6 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-
-        if ($file = $request->file('file')) {
-            $fileName = rand(100, 100000) . time(). $file->getClientOriginalName();
-
-            $filePath = public_path('/storage/auth/posts');
-
-            $file->move($filePath,$fileName);
-
-        }
 
 
         $post->update([

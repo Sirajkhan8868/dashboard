@@ -35,5 +35,4 @@ Route::get('auth/categories', [CategoriesController::class, 'OpenCategoriesPage'
 Route::get('/',[BlogController::class,'index'])->name('home');
 Route::get('/single-blog',[BlogController::class,'openSingleBlog'])->name('home');
 
-// Route::view('/','layouts.website');
 
