@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Gallery;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\PostTag;
@@ -15,10 +16,10 @@ use str;
 class PostController extends Controller
 {
     public function index()
-    {
-        $posts = Post::all();
-        return view('posts.index', compact('posts'));
-    }
+{
+    $posts = Post::all();
+    return view('posts.index', compact('posts'));
+}
 
     public function create()
     {
@@ -30,6 +31,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'file' => 'required',
+            'image' => 'mimes:png,jpg',
             'title' => 'required',
             'description' => 'required',
             'status' => 'required',
@@ -37,14 +40,13 @@ class PostController extends Controller
         ]);
 
         if ($file = $request->file('file')) {
-            $fileName = $file->getClientOriginalName();
 
-            dd($fileName);
+            $gallery_id = $this->uploadFile($file);
         }
 
-        dd('dont have');
 
         $post = Post::create([
+            'gallery_id' => $gallery_id,
             'user_id' => 1,
             'title' => $request->title,
             'description' => $request->description,
@@ -65,7 +67,6 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        // dd($id);
         return view('posts.show', compact('post'));
     }
 
@@ -79,6 +80,14 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
+
+        if ($file = $request->file('file')) {
+            $fileName = rand(100, 100000) . time() . $file->getClientOriginalName();
+
+            $filePath = public_path('/storage/auth/posts');
+
+            $file->move($filePath, $fileName);
+        }
 
 
         $post->update([
@@ -108,4 +117,25 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
     }
+    private function uploadFile($file)
+    {
+        $fileName = rand(100, 100000) . time() . $file->getClientOriginalName();
+
+        $filePath = public_path('storage/auth/posts');
+
+        $file->move($filePath, $fileName);
+
+        $gallery = $this->storeImage($fileName);
+    }
+
+    private function storeImage($fileName)
+    {
+        $gallery = Gallery::create([
+            'image' => $fileName,
+            'type' => Gallery::POST_IMAGE
+        ]);
+
+        return $gallery;
+    }
+
 }

@@ -10,7 +10,7 @@ class Post extends Model
     use HasFactory;
 
     protected $table = 'posts';
-    protected $fillable = ['user_id', 'category_id', 'title', 'description', 'status'];
+    protected $fillable = ['gallery_id','user_id', 'category_id', 'title', 'description', 'status'];
 
     public function tags()
     {
@@ -26,5 +26,9 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(user::class);
+    }
+    public function gallery()
+    {
+        return $this->belongsTo(Gallery::class);
     }
 }

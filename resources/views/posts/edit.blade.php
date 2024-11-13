@@ -74,6 +74,12 @@
                         </div>
 
 
+                        <div class="form-group mb-2">
+                            <label>File</label>
+                            <input type="file" id="title" name="file" value="{{ old('file') }}"
+                                class="form-control">
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 
